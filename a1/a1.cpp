@@ -36,6 +36,22 @@ vector<int> sub(const vector<int>& v1, const vector<int>& v2, int base){
   return res;
 };
 
+// GREATER : reversed input vectors
+bool isGreater(const vector<int>& v1, const vector<int>& v2){
+  if(v1.size() != v2.size()) return v1.size() > v2.size();
+  if(v1.size() == 0) return false;
+  return v1[v1.size() - 1] > v2[v2.size() - 1];
+}
+
+// EQUAL : reversed input vectors
+bool isEqual(const vector<int>& v1, const vector<int>& v2){
+  if(v1.size() != v2.size()) return false;
+  for(int i = 0; i < v1.size(); ++i){
+    if(v1[i] != v2[i]) return false;
+  }
+  return true;
+}
+
 // INTEGER ADDITION SCHOOL METHOD : reversed input and output vectors
 vector<int> add(const vector<int>& v1, const vector<int>& v2, int base){
   int carry = 0, i = 0;
@@ -101,10 +117,41 @@ vector<int> mult(const vector<int>& v1, const vector<int>& v2, int base){
   return res;
 }
 
+// SCHOOL DIVISION : reversed input and output vectors
+vector<int> div(const vector<int>& v1, const vector<int>& v2, int base){
+  // early exit
+  if(isGreater(v2,v1)) return {0};
+  vector<int> res;
+  vector<int> dividend = {};
+  // traverse from rightmost digit
+  for(int i = v1.size() - 1; i >= 0; --i){
+    // bring down digit
+    dividend.insert(dividend.begin(), v1[i]);
+    trim(dividend);
+    // count times divisor in dividend
+    vector<int> count = {0};
+    vector<int> sum = {0};
+    vector<int> preSum = {0};
+    while (isGreater(dividend, sum) || isEqual(dividend, sum)) {
+      preSum = sum;
+      sum = add(sum, v2, base);
+      if(isGreater(dividend, sum) || isEqual(dividend, sum)){
+        count = add(count, {1}, base);
+      }
+    }
+    // get remainder
+    dividend = sub(dividend, preSum, base);
+    // add quotient to result
+    res.insert(res.begin(), count[0]);
+  }
+  trim(res);
+  return res;
+}
+
 int main(){
-  vector<int> a = {3,4,5};
-  vector<int> b = {1,2,9};
-  vector<int> res = mult(a,b,10);
+  vector<int> a = {0,1};
+  vector<int> b = {0,1};
+  vector<int> res = div(a,b,10);
   trim(res);
   for(int n : res){
     cout << n;
