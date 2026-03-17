@@ -40,7 +40,10 @@ vector<int> sub(const vector<int>& v1, const vector<int>& v2, int base){
 bool isGreater(const vector<int>& v1, const vector<int>& v2){
   if(v1.size() != v2.size()) return v1.size() > v2.size();
   if(v1.size() == 0) return false;
-  return v1[v1.size() - 1] > v2[v2.size() - 1];
+  for(int i = v1.size() - 1; i >= 0; --i){
+    if(v1[i] != v2[i]) return v1[i] > v2[i];
+  }
+  return false;
 }
 
 // EQUAL : reversed input vectors
@@ -119,6 +122,8 @@ vector<int> mult(const vector<int>& v1, const vector<int>& v2, int base){
 
 // SCHOOL DIVISION : reversed input and output vectors
 vector<int> div(const vector<int>& v1, const vector<int>& v2, int base){
+  // handle division by zero
+  if(v2 == vector<int>({0})) return {0};
   // early exit
   if(isGreater(v2,v1)) return {0};
   vector<int> res;
@@ -148,14 +153,39 @@ vector<int> div(const vector<int>& v1, const vector<int>& v2, int base){
   return res;
 }
 
+#include <sstream>
 int main(){
-  vector<int> a = {0,1};
-  vector<int> b = {0,1};
-  vector<int> res = div(a,b,10);
-  trim(res);
-  for(int n : res){
-    cout << n;
+  // read input
+  string num1, num2;
+  int base;
+  cin >> num1 >> num2 >> base;
+  // convert to reversed vector of digits
+  vector<int> v1, v2;
+  for(int i = num1.size() - 1; i >= 0; --i){
+    v1.push_back(num1[i] - '0');
   }
-  cout << endl;
+  for(int i = num2.size() - 1; i >= 0; --i){
+    v2.push_back(num2[i] - '0');
+  }
+  // perform operations
+  vector<int> sum = add(v1, v2, base);
+  vector<int> prod = mult(v1, v2, base);
+  vector<int> quot = div(v1, v2, base);
+  // trim zeroes
+  trim(sum);
+  trim(prod);
+  trim(quot);
+  // print results
+  for(int i = sum.size() - 1; i >= 0; --i){
+    cout << sum[i];
+  }
+  cout << " ";
+  for(int i = prod.size() - 1; i >= 0; --i){
+    cout << prod[i];
+  }
+  cout << " ";
+  for(int i = quot.size() - 1; i >= 0; --i){
+    cout << quot[i];
+  }
   return 0;
 }
