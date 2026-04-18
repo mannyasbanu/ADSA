@@ -1,0 +1,59 @@
+# Sample cases from the assignment brief
+A1 A2 A3 IN
+A1 A2 A3 PRE
+A1 D1 POST
+
+# Basic insertion orders
+A3 A2 A1 IN
+A3 A2 A1 PRE
+A2 A1 A3 POST
+
+# Single rotations
+A30 A20 A10 PRE
+A10 A20 A30 PRE
+
+# Double rotations
+A30 A10 A20 PRE
+A10 A30 A20 PRE
+
+# Larger insertion set
+A10 A20 A30 A40 A50 A25 IN
+A10 A20 A30 A40 A50 A25 PRE
+A10 A20 A30 A40 A50 A25 POST
+
+# Delete leaf
+A20 A10 A30 A5 A15 A25 A35 D5 IN
+A20 A10 A30 A5 A15 A25 A35 D5 PRE
+
+# Delete node with one child
+A20 A10 A30 A25 A40 A22 D25 IN
+A20 A10 A30 A25 A40 A22 D25 PRE
+
+# Delete node with two children
+A20 A10 A30 A5 A15 A25 A35 D20 IN
+A20 A10 A30 A5 A15 A25 A35 D20 PRE
+A20 A10 A30 A5 A15 A25 A35 D20 POST
+
+# Delete missing key
+A10 A5 A15 D99 IN
+
+# Delete down to empty
+A10 D10 IN
+A10 D10 PRE
+A10 D10 POST
+
+# Mixed operations
+A50 A20 A70 A10 A30 A60 A80 D20 IN
+A50 A20 A70 A10 A30 A60 A80 D20 PRE
+A50 A20 A70 A10 A30 A60 A80 D20 POST
+
+# Multiple traversals in one test
+A8 A4 A12 A2 A6 A10 A14 IN PRE POST
+
+# Repeated deletes after tree changes
+A40 A20 A60 A10 A30 A50 A70 D10 D30 D20 IN
+A40 A20 A60 A10 A30 A50 A70 D10 D30 D20 PRE
+
+# More rebalancing after delete
+A9 A5 A10 A0 A6 A11 A-1 A1 A2 D10 PRE
+A9 A5 A10 A0 A6 A11 A-1 A1 A2 D10 IN
